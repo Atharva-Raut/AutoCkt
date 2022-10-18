@@ -185,6 +185,7 @@ class TwoStageAmp(gym.Env):
         if (reward >= 10):
             done = True
             print('-'*10)
+            print('params = ', self.params_id)
             print('params = ', self.cur_params_idx)
             print('specs:', self.cur_specs)
             print('ideal specs:', self.specs_ideal)

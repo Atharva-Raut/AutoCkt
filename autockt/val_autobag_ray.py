@@ -18,10 +18,10 @@ config_train = {
             #"num_sgd_iter": 3,
             #"lr":1e-3,
             #"vf_loss_coeff": 0.5,
-            "horizon":  30,
+            "horizon":  60,
             "num_gpus": 0,
             "model":{"fcnet_hiddens": [64, 64]},
-            "num_workers": 6,
+            "num_workers": 3,
             "env_config":{"generalize":True, "run_valid":False},
             }
 

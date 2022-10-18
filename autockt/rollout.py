@@ -17,7 +17,7 @@ from ray.rllib.agents.registry import get_agent_class
 from ray.tune.registry import register_env
 
 #from bag_deep_ckt.autockt.envs.bag_opamp_discrete import TwoStageAmp
-from envs.spectre_vanilla_opamp import TwoStageAmp
+from envs.ngspice_vanilla_opamp import TwoStageAmp
 
 EXAMPLE_USAGE = """
 Example Usage via RLlib CLI:
@@ -163,9 +163,9 @@ def rollout(agent, env_name, num_steps, out="assdf", no_render=True):
                 action_array.append(action)
 
             next_state, reward, done, _ = env.step(action)
-            print(action)
-            print(reward)
-            print(done)
+            # print(action)
+            # print(reward)
+            # print(done)
             reward_total += reward
             if not no_render:
                 env.render()
