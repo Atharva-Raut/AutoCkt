@@ -7,7 +7,6 @@ import argparse
 from collections import OrderedDict
 import pickle
 
-
 #way of ordering the way a yaml file is read
 class OrderedDictYAMLLoader(yaml.Loader):
   """
@@ -41,7 +40,7 @@ class OrderedDictYAMLLoader(yaml.Loader):
       return mapping
 
 #Generate the design specifications and then save to a pickle file
-def gen_data(CIR_YAML, env, num_specs):
+def gen_data(CIR_YAML, env, num_specs, with_bias=0):
   with open(CIR_YAML, 'r') as f:
     yaml_data = yaml.load(f, OrderedDictYAMLLoader)
 
@@ -50,8 +49,20 @@ def gen_data(CIR_YAML, env, num_specs):
   specs_valid = []
   for spec in specs_range_vals:
       if isinstance(spec[0],int):
+        if with_bias:
+          list_val1 = [random.randint(int(spec[0]),int(spec[1])) for x in range(0,num_specs-int(spec[3]*num_specs))]
+          list_val2 = [random.randint(int(spec[1]),int(spec[2])) for x in range(0,int(spec[3]*num_specs))]
+          list_val = list_val1 + list_val2
+          random.shuffle(list_val)
+        else:
           list_val = [random.randint(int(spec[0]),int(spec[1])) for x in range(0,num_specs)]
       else:
+        if with_bias:
+          list_val1 = [random.uniform(float(spec[0]),float(spec[1])) for x in range(0,num_specs-int(spec[3]*num_specs))]
+          list_val2 = [random.uniform(float(spec[1]),float(spec[2])) for x in range(0,int(spec[3]*num_specs))]
+          list_val = list_val1 + list_val2
+          random.shuffle(list_val)
+        else:
           list_val = [random.uniform(float(spec[0]),float(spec[1])) for x in range(0,num_specs)]
       specs_valid.append(tuple(list_val))
   i=0
@@ -85,12 +96,15 @@ def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('--num_specs', type=str)
   parser.add_argument('--val',default="0",type=str)
+  parser.add_argument('--biased',default="0",type=str)
   args = parser.parse_args()
   CIR_YAML = "eval_engines/ngspice/ngspice_inputs/yaml_files/two_stage_opamp.yaml"
   VAL_YAML = "eval_engines/ngspice/ngspice_inputs/yaml_files/two_stage_opamp_val.yaml"
   
   if(int(args.val)==1):
     gen_data_val(VAL_YAML, "two_stage_opamp", int(args.num_specs))
+  elif(int(args.biased)==1):
+    gen_data(CIR_YAML, "two_stage_opamp", int(args.num_specs), 1)
   else:
     gen_data(CIR_YAML, "two_stage_opamp", int(args.num_specs))
 

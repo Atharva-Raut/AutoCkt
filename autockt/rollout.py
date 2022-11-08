@@ -184,6 +184,7 @@ def rollout(agent, env_name, num_steps, out="assdf", no_render=True):
             pickle.dump(action_arr_comp, open("action_arr_test", "wb"))
         else:
             obs_nreached.append(ideal_spec)          #save unreached observation 
+            env.print_info()
             action_array=[]
         if out is not None:
             rollouts.append(rollout_num)

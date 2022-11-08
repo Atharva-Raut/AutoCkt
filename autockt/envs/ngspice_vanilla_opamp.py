@@ -200,6 +200,14 @@ class TwoStageAmp(gym.Env):
         #print(reward)
         return self.ob, reward, done, {}
 
+    def print_info(self):
+        print('-'*10)
+        print('params = ', self.params_id)
+        print('params = ', self.cur_params_idx)
+        print('specs:', self.cur_specs)
+        print('ideal specs:', self.specs_ideal)
+        print('-'*10)
+
     def lookup(self, spec, goal_spec):
         goal_spec = [float(e) for e in goal_spec]
         norm_spec = (spec-goal_spec)/(goal_spec+spec)
